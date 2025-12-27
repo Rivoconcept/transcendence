@@ -2,35 +2,39 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:16
+    image: postgres:15
     container_name: postgres
     restart: always
-    ports:
-      - "5432:5432"
-    env_file:
-      - .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: transcendence
+      POSTGRES_USER: transcendence_user
       POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PASSWORD
     volumes:
-      - ${DATA_PATH}/db_data:/var/lib/postgresql/data
+      - ${DATA_PATH}/pg_data:/var/lib/postgresql/data
     secrets:
       - POSTGRES_PASSWORD
     networks:
       - transcendence-network
 
   backend:
-    build: ./requirements/backend
+    build: ./backend
     container_name: backend
+    restart: always
+    env_file:
+      - .env
     depends_on:
       - postgres
+    ports:
+      - "5000:5000"
     networks:
       - transcendence-network
 
   frontend:
-    build: ./requirements/frontend
+    build: ./frontend
     container_name: frontend
+    restart: always
+    depends_on:
+      - backend
     ports:
       - "3000:3000"
     networks:
@@ -40,20 +44,15 @@ services:
     image: nginx:stable
     container_name: nginx
     restart: always
+    depends_on:
+      - frontend
     ports:
       - "8443:443"
     volumes:
-      - ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
-      - ./site:/usr/share/nginx/html
+      - ./nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
       - ../secrets/certs:/etc/ssl/private
-    depends_on:
-      - backend
     networks:
       - transcendence-network
-
-volumes:
-  db_data:
-    external: true
 
 networks:
   transcendence-network:
@@ -61,4 +60,4 @@ networks:
 
 secrets:
   POSTGRES_PASSWORD:
-    file: ../secrets/POSTGRES_PASSWORD.txt
+    file: ./secrets/POSTGRES_PASSWORD.txt
