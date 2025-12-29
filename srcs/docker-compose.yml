@@ -28,13 +28,13 @@ services:
     networks:
       - transcendence-network
 
-  frontend:
-    build: ./requirements/frontend
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    networks:
-      - transcendence-network
+  # frontend:
+  #   build: ./requirements/frontend
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - transcendence-network
 
   nginx:
     image: nginx:stable
