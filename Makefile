@@ -6,12 +6,12 @@
 #    By: rhanitra <rhanitra@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 18:21:32 by rhanitra          #+#    #+#              #
-#    Updated: 2025/12/26 13:40:19 by rhanitra         ###   ########.fr        #
+#    Updated: 2025/12/30 14:43:29 by rhanitra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME = inception
+NAME = ft_stranscendance
 
 COMPOSE = docker compose
 COMPOSE_FILE = -f ./srcs/docker-compose.yml
@@ -19,6 +19,8 @@ ENV_FILE = --env-file srcs/.env
 
 DOMAIN = rhanitra.42.fr
 
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0
 export USER = $(shell whoami)
 export DATA_PATH = /home/$(USER)/data
 CERTS_DIR = ./secrets/certs
