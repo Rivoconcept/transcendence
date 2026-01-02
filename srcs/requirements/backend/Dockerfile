@@ -1,15 +1,16 @@
-FROM node:22.20-alpine
+FROM node:22-alpine
 
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache nano bash git
-
-COPY package*.json tsconfig.json ./
-
+# Copier package.json et package-lock.json pour installer les dépendances
+COPY package*.json ./
 RUN npm ci
 
+# Copier le reste du backend
 COPY . .
 
-EXPOSE 3000
+# Installer ts-node globalement si nécessaire
+RUN npm install -g ts-node typescript
 
-CMD ["npx", "ts-node", "app.ts"]
+# Lancer le backend avec ts-node
+CMD ["ts-node", "app.ts"]

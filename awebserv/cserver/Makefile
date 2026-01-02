@@ -10,17 +10,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-MINISERVER = server.c
+MINISERVER = mini_serv.c
  
 DIR_MINISERVER = ./
 SRC_MINISERVER = $(addprefix $(DIR_MINISERVER),$(MINISERVER))
 
 OBJ_MINISERVER = $(SRC_MINISERVER:.c=.o)
 
-NAME = miniserver
+NAME = mini_serv
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
-CC = c++
+FLAGS = -Wall -Wextra -Werror
+CC = gcc
 RM = rm -rf
 
 all : $(NAME)
