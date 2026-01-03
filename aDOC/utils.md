@@ -1,6 +1,8 @@
 <!-- install NVM -->
+https://www.youtube.com/watch?v=QDUk5CGLaRM
 
 https://www.youtube.com/watch?v=w_RIcUZspBI
+https://www.youtube.com/watch?v=21-TUBfLwhY
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.zshrc

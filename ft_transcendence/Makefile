@@ -15,7 +15,7 @@ NAME = ft_stranscendance
 
 COMPOSE = docker compose
 COMPOSE_FILE = -f ./srcs/docker-compose.yml
-ENV_FILE = --env-file .env
+ENV_FILE = --env-file ./srcs/.env
 
 DOMAIN = rhanitra.42.fr
 
