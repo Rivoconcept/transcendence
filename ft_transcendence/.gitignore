@@ -33,7 +33,7 @@ yarn-error.log*
 # ================================
 # Docker
 # ================================
-**/Dockerfile
+# **/Dockerfile
 **/docker-compose.override.yml
 **/docker-compose.local.yml
 
