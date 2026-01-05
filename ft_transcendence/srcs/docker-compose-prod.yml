@@ -23,7 +23,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: node-backend
     environment:
       NODE_ENV: production
@@ -44,7 +44,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: frontend
     environment:
       DOMAIN_NAME: ${DOMAIN}
@@ -55,7 +55,8 @@ services:
     volumes:
       - ../secrets/certs:/etc/ssl/private/
     ports:
-      - "8443:443"
+      - "5173:5173"
+      
 
 volumes:
   db_data:
