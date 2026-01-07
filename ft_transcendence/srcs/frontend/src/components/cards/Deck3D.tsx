@@ -37,7 +37,8 @@ export default function Deck3D() {
       {Array.from({ length: DECK_SIZE }).map((_, i) => (
         <Card3D
           key={i}
-          position={[0, i * 0.03, 0]} // pile de cartes
+          card={{ id: String(i), texture: "/diamonds/1.png" }}
+          onRotationComplete={() => {}}
         />
       ))}
     </group>

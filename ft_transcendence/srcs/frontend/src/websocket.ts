@@ -1,22 +1,20 @@
-export function connectWebSocket() {
-  const ws = new WebSocket("wss://localhost:8443/ws");
+// websocket.ts
+let ws: WebSocket;
 
-  ws.onopen = () => {
-    console.log("WebSocket connecté");
-    ws.send("hello server");
+export function connectWebSocket(setWsCard: (id: string) => void) {
+  ws = new WebSocket("ws://localhost:3000/ws");
+
+  ws.onopen = () => console.log("✅ WebSocket connecté");
+
+  ws.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
+    if (msg.type === "DRAW_CARD") {
+      setWsCard(msg.card); // déclenche animation
+    }
   };
 
-  ws.onmessage = (event) => {
-    console.log("Message reçu :", event.data);
-  };
-
-  ws.onerror = (err) => {
-    console.error("WebSocket error", err);
-  };
-
-  ws.onclose = () => {
-    console.log("WebSocket fermé");
-  };
+  ws.onclose = () => console.log("🔌 WebSocket fermé");
+  ws.onerror = () => console.warn("⚠️ WebSocket erreur");
 
   return ws;
 }

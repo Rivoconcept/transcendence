@@ -7,6 +7,7 @@ wss.on('connection', (ws: WebSocket) => {
     console.log('Received:', message);
   });
 
+  ws.send('Hello client!');
   ws.send(JSON.stringify({
     type: "NEW_CARD",
     card: "1"
