@@ -1,6 +1,6 @@
-export default function FruitList({fruitInfo, onHandleDelete})
+export default function FruitList({fruitInfo, onClick})
 {
     return (
-        <li> {fruitInfo.name} <button onClick={() => onHandleDelete(fruitInfo.id)}> X </button></li>
+        <li onClick={onClick}> {fruitInfo.name} <button> X </button></li>
     )
 }

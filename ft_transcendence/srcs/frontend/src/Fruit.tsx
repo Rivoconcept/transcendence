@@ -29,17 +29,17 @@ function Fruit() {
     
 /****************************************************************** */
 
-    // const handleAdd = (name) => {
-    //     const newId =
-    //         fruit.length > 0
-    //             ? fruit[fruit.length - 1].id + 1
-    //             : 1;
+    const handleAdd = (name) => {
+        const newId =
+            fruit.length > 0
+                ? fruit[fruit.length - 1].id + 1
+                : 1;
 
-    //     setFruit([
-    //         ...fruit,
-    //         { id: newId, name }
-    //     ]);
-    // };
+        setFruit([
+            ...fruit,
+            { id: newId, name }
+        ]);
+    };
 /******************************************************************* */
     // const nextId = useRef(6);
 
@@ -48,18 +48,18 @@ function Fruit() {
     // };
 
 /**************************************************************** */
-    const handleAdd = (name) => {
-        const maxId = fruit.reduce(
-            (max, item) => item.id > max ? item.id : max,
-            0
-        );
+    // const handleAdd = (name) => {
+    //     const maxId = fruit.reduce(
+    //         (max, item) => item.id > max ? item.id : max,
+    //         0
+    //     );
 
-        setFruit([
-            ...fruit,
-            { id: maxId + 1, name }
-        ]);
-        alert(id);
-    };
+    //     setFruit([
+    //         ...fruit,
+    //         { id: maxId + 1, name }
+    //     ]);
+    //     alert(id);
+    // };
 
 
 
@@ -71,18 +71,22 @@ function Fruit() {
         setFruit(newDelete)
     }
 
+    const handleChoice = (name) => {
+        alert(`This is my Fruit ${name}`)
+    }
+
 
     return(
-        <div>
+        <>
             <h1>Liste des Fruits</h1>
             <ul>
                 {fruit.map((fruit) =>(
                     // <li key={fruit.id}>{fruit.name} <button onClick={() => handleDelete(fruit.id)}>X</button></li>
-                    <FruitList key={fruit.id} fruitInfo={fruit} onHandleDelete={handleDelete} />
+                    <FruitList key={fruit.id} fruitInfo={fruit} onClick={() => handleChoice(fruit.name)} />
                 ))}
             </ul>
             <FruitForm handleAdd={handleAdd}/>
-        </div>
+        </>
     );
 }
 
