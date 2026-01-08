@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { connectWebSocket } from './websocket'
 import CardScene from "./scenes/CardScene";
+import Test from "./Test";
+import Fruit from "./Fruit";
 
 function App() {
   const [cardId, setCardId] = useState("1");
@@ -19,8 +21,14 @@ function App() {
      <>
          <div style={{ width: "50vw", height: "50vh" }}>
             <CardScene forcedCard={cardId} />
+            
         </div>
-        <div>test</div>
+        <div>
+            <Test/>
+        </div>
+        <div>
+            <Fruit/>
+        </div>
      </>
 
   );
