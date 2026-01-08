@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { connectWebSocket } from './websocket'
-import CardScene from "./scenes/CardScene";
+// import CardScene from "./scenes/CardScene";
 import Test from "./Test";
 import Fruit from "./Fruit";
 
@@ -19,10 +19,10 @@ function App() {
 
   return (
      <>
-         <div style={{ width: "50vw", height: "50vh" }}>
+         {/* <div style={{ width: "50vw", height: "50vh" }}>
             <CardScene forcedCard={cardId} />
             
-        </div>
+        </div> */}
         <div>
             <Test/>
         </div>

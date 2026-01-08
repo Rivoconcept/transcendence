@@ -1,4 +1,6 @@
 import { useState } from "react";
+import FruitList from "./components/FruitList"
+import FruitForm from "./components/FruitForm";
 
 function Fruit() {
 
@@ -10,31 +12,56 @@ function Fruit() {
         {id: 5, name: "Elderberry"},
     ]);
 
+/********************************************************************** */
+    // const handleAdd = (fruitToAdd) => {
+    //     // Copie du state
+    //     // setFruit([...fruit, { id: Date.now(), name: newFruit }]);
+    //     const copyFruit = [...fruit]
+    //     copyFruit.push(fruitToAdd);
+    //     setFruit(copyFruit);
+    // }
+
+    // const maxId = () => {
+    //     return fruit.length > 0
+    //         ? fruit.reduce((max, f) => f.id > max ? f.id : max, 0) + 1
+    //         : 1;
+    // };
     
-    const [newFruit, setNewFruit] = useState("");
+/****************************************************************** */
+
+    // const handleAdd = (name) => {
+    //     const newId =
+    //         fruit.length > 0
+    //             ? fruit[fruit.length - 1].id + 1
+    //             : 1;
+
+    //     setFruit([
+    //         ...fruit,
+    //         { id: newId, name }
+    //     ]);
+    // };
+/******************************************************************* */
+    // const nextId = useRef(6);
+
+    // const handleAdd = (name) => {
+    //     setFruit([...fruit, { id: nextId.current++, name }]);
+    // };
+
+/**************************************************************** */
+    const handleAdd = (name) => {
+        const maxId = fruit.reduce(
+            (max, item) => item.id > max ? item.id : max,
+            0
+        );
+
+        setFruit([
+            ...fruit,
+            { id: maxId + 1, name }
+        ]);
+        alert(id);
+    };
 
 
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Copie du state
-        const newFruit = [...fruit]
-
-
-        // manipulation sur la copie du state
-        const id = new Date().getTime();
-        const nom = "newFruit";
-        newFruit.push({id, nom});
-
-        // modifier le state avec le setter
-        setFruit(newFruit);
-        setNewFruit("");
-    }
-
-    const handleChange = (event) => {
-        const valueAfterChange = event.target.value;
-        setNewFruit(valueAfterChange);
-    }
 
     const handleDelete = (id) => {
 
@@ -49,12 +76,12 @@ function Fruit() {
         <div>
             <h1>Liste des Fruits</h1>
             <ul>
-                {fruit.map((fruit) =>(<li key={fruit.id}>{fruit.name} <button onClick={() => handleDelete(fruit.id)}>X</button></li>))}
+                {fruit.map((fruit) =>(
+                    // <li key={fruit.id}>{fruit.name} <button onClick={() => handleDelete(fruit.id)}>X</button></li>
+                    <FruitList key={fruit.id} fruitInfo={fruit} onHandleDelete={handleDelete} />
+                ))}
             </ul>
-            <form action="submit" onClick = {handleSubmit}>
-                <input value={newFruit} type="text" placeholder="Ajouter un fruit ..." onChange={handleChange}/>
-                <button>Ajouter +</button>
-            </form>
+            <FruitForm handleAdd={handleAdd}/>
         </div>
     );
 }
