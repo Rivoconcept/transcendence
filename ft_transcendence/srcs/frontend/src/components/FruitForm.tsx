@@ -1,46 +1,26 @@
 import { useState } from "react";
+import { useFruit } from "../context/FruitContext";
 
-export default function FruitForm({ handleAdd })
-{
-       
-    const [newFruit, setNewFruit] = useState("");
+export default function FruitForm() {
+    const { addFruit } = useFruit();
+    const [newFruit, setNewFruit] = useState<string>("");
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!newFruit.trim()) return;
 
-/**************************************************************** */
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-
-    //     if (newFruit.trim() === "") return;
-
-    //     // manipulation sur la copie du state
-    //     // const id = new Date().getTime();
-    //     const id = maxId();
-    //     // alert(id);
-    //     const name = newFruit;
-    //     const FruitToAdd = {id, name};
-    //     handleAdd(FruitToAdd)
-    //     // modifier le state avec le setter
-    //     setNewFruit("");
-    // }
-/********************************************************************** */
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        if (newFruit.trim() === "") return;
-
-        handleAdd(newFruit);
+        addFruit(newFruit);
         setNewFruit("");
     };
 
-    const handleChange = (event) => {
-        setNewFruit(event.target.value);
-    }
-
     return (
-        <form action="submit" onSubmit={handleSubmit}>
-        <input value={newFruit} type="text" placeholder="Ajouter un fruit ..." onChange={handleChange}/>
-        <button>Ajouter +</button>
-    </form>
+        <form onSubmit={handleSubmit}>
+            <input
+                value={newFruit}
+                onChange={(e) => setNewFruit(e.target.value)}
+                placeholder="Ajouter un fruit"
+            />
+            <button type="submit">Ajouter</button>
+        </form>
     );
 }

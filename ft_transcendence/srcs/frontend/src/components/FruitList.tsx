@@ -1,6 +1,16 @@
-export default function FruitList({fruitInfo, onClick})
-{
+import { useFruit } from "../context/FruitContext";
+
+export default function FruitList() {
+    const { fruits, deleteFruit } = useFruit();
+
     return (
-        <li onClick={onClick}> {fruitInfo.name} <button> X </button></li>
-    )
+        <ul>
+            {fruits.map(fruit => (
+                <li key={fruit.id}>
+                    {fruit.name}
+                    <button onClick={() => deleteFruit(fruit.id)}>X</button>
+                </li>
+            ))}
+        </ul>
+    );
 }

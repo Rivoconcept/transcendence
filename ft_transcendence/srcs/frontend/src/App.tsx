@@ -3,6 +3,8 @@ import { connectWebSocket } from './websocket'
 // import CardScene from "./scenes/CardScene";
 import Test from "./Test";
 import Fruit from "./Fruit";
+import { FruitProvider } from "./context/FruitContext";
+import OtherFruit from "./OtherFruit";
 
 function App() {
   const [cardId, setCardId] = useState("1");
@@ -27,8 +29,11 @@ function App() {
             <Test/>
         </div>
         <div>
-            <Fruit/>
+            <OtherFruit/>
         </div>
+        <FruitProvider>
+            <Fruit />
+        </FruitProvider>
      </>
 
   );
