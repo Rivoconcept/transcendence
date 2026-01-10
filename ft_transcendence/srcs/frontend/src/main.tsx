@@ -1,9 +1,10 @@
 // src/main.tsx
-import React from "react"
-import ReactDOM from "react-dom/client"
-import App from "./App"
-import './styles/main.scss'
-import { FruitProvider } from "./context/FruitContext"
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import './styles/main.scss';
+import { FruitProvider } from "./context/FruitContext";
+// import { CardProvider } from "./context/CardContext"; // 👈 importer CardProvider
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -11,4 +12,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
     </FruitProvider>
   </React.StrictMode>
-)
+);

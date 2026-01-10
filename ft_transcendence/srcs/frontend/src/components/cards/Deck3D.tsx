@@ -1,12 +1,13 @@
-// Deck3D.tsx
+// // Deck3D.tsx
 
 import { useRef, useState } from "react";
 import { Group } from "three";
 import Card3D from "./Card3D";
+import { CARDS } from "../../utils/cards";
 
-const DECK_SIZE = 10; // commence petit, extensible à 52
+const DECK_SIZE = 10;
 
-export default function Deck3D() {
+export default function Deck3D({ finalCardId }: { finalCardId?: string }) {
   const groupRef = useRef<Group>(null!);
   const [shuffling, setShuffling] = useState(false);
 
@@ -14,22 +15,8 @@ export default function Deck3D() {
     if (shuffling) return;
     setShuffling(true);
 
-    // animation simple (rotation du deck)
-    let frame = 0;
-    const animate = () => {
-      frame++;
-      groupRef.current.rotation.y += 0.2;
-      groupRef.current.rotation.x += 0.1;
-
-      if (frame < 30) {
-        requestAnimationFrame(animate);
-      } else {
-        groupRef.current.rotation.set(0, 0, 0);
-        setShuffling(false);
-      }
-    };
-
-    animate();
+    // animation visuelle du deck (optionnelle)
+    setTimeout(() => setShuffling(false), 2000);
   };
 
   return (
@@ -37,8 +24,7 @@ export default function Deck3D() {
       {Array.from({ length: DECK_SIZE }).map((_, i) => (
         <Card3D
           key={i}
-          card={{ id: String(i), texture: "/diamonds/1.png" }}
-          onRotationComplete={() => {}}
+          targetCardId={i === DECK_SIZE - 1 ? finalCardId : undefined} // dernière carte = reveal
         />
       ))}
     </group>

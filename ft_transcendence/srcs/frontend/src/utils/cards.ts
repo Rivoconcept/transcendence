@@ -1,3 +1,5 @@
+//utils/cards.ts
+
 export const CARDS = [
   { id: "1", texture: "/diamonds/1.png" },
   { id: "2", texture: "/diamonds/2.png" },
