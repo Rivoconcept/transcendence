@@ -1,3 +1,5 @@
+// src/components/cards/Card3D.tsx
+
 import { useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { useRef, useState, useMemo, useEffect } from "react";
@@ -5,68 +7,112 @@ import * as THREE from "three";
 import { CARDS } from "../../utils/cards";
 
 type Props = {
-  targetCardId: string; // carte finale
+  targetCardId: string;
   shuffleSpeed?: number;
 };
 
-export default function Card3D({ targetCardId, shuffleSpeed = 0.15 }: Props) {
+export default function Card3D({
+  targetCardId,
+  shuffleSpeed = 0.15,
+}: Props) {
   const mesh = useRef<THREE.Mesh>(null!);
 
-  // précharger toutes les textures
+  // textures
   const frontTextures = useMemo(
     () => CARDS.map(c => useLoader(TextureLoader, c.texture)),
     []
   );
-  const backTexture = useLoader(TextureLoader, "/back.png");
+  const backTexture = useLoader(TextureLoader, "./diamonds/back.png");
 
+  // shuffle state
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showBack, setShowBack] = useState(false);
+
+  // refs (no rerender)
+  const shuffling = useRef(true);
+  const shuffleTimer = useRef<number | null>(null);
+
+  // rotation finale
   const rotation = useRef(0);
-  const halfDone = useRef(false);
   const finished = useRef(false);
 
+  /* ---------------------------
+     PHASE 1 — SHUFFLE RAPIDE
+  ---------------------------- */
   useEffect(() => {
-    // reset quand nouvelle carte cible
-    rotation.current = 0;
-    halfDone.current = false;
+    shuffling.current = true;
     finished.current = false;
+    rotation.current = 0;
+
     setCurrentIndex(0);
-    if (mesh.current) mesh.current.rotation.y = 0;
+    setShowBack(false);
+
+    shuffleTimer.current = window.setInterval(() => {
+      setShowBack(prev => {
+        // quand on repasse sur la face → carte suivante
+        if (prev === true) {
+          setCurrentIndex(i => (i + 1) % CARDS.length);
+        }
+        return !prev;
+      });
+    }, 80); // vitesse du shuffle
+
+    return () => {
+      if (shuffleTimer.current) {
+        clearInterval(shuffleTimer.current);
+      }
+    };
+  }, []);
+
+  /* ---------------------------
+     PHASE 2 — ARRÊT SHUFFLE
+     + PRÉPARATION REVEAL
+  ---------------------------- */
+  useEffect(() => {
+    if (!targetCardId) return;
+
+    if (shuffleTimer.current) {
+      clearInterval(shuffleTimer.current);
+    }
+
+    const index = CARDS.findIndex(c => c.id === targetCardId);
+    if (index !== -1) {
+      setCurrentIndex(index);
+    }
+
+    setShowBack(false);
+    shuffling.current = false;
   }, [targetCardId]);
 
+  /* ---------------------------
+     PHASE 3 — ROTATION FINALE
+  ---------------------------- */
   useFrame(() => {
-    if (!mesh.current || finished.current) return;
+    if (shuffling.current || finished.current || !mesh.current) return;
 
     rotation.current += shuffleSpeed;
     mesh.current.rotation.y = rotation.current;
 
-    // mi-rotation → changer carte
-    if (!halfDone.current && rotation.current >= Math.PI / 2) {
-      halfDone.current = true;
-
-      if (CARDS[currentIndex].id !== targetCardId) {
-        setCurrentIndex(prev => (prev + 1) % CARDS.length);
-      }
-    }
-
-    // fin rotation
     if (rotation.current >= Math.PI) {
       rotation.current = 0;
-      halfDone.current = false;
-
-      // arrêter si carte finale atteinte
-      if (CARDS[currentIndex].id === targetCardId) {
-        finished.current = true;
-      }
+      finished.current = true;
     }
   });
 
-  const currentTexture =
-    rotation.current < Math.PI / 2 ? frontTextures[currentIndex] : backTexture;
+  /* ---------------------------
+     TEXTURE ACTIVE
+  ---------------------------- */
+  const currentTexture = showBack
+    ? backTexture
+    : frontTextures[currentIndex];
 
   return (
     <mesh ref={mesh}>
       <planeGeometry args={[2.5, 3.5]} />
-      <meshStandardMaterial map={currentTexture} side={THREE.DoubleSide} />
+      <meshStandardMaterial
+        map={currentTexture}
+        side={THREE.DoubleSide}
+      />
     </mesh>
   );
 }
