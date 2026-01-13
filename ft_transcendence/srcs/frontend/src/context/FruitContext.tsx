@@ -1,17 +1,5 @@
 import { createContext, useContext, useRef, useState } from "react";
-
-/* ================= TYPES ================= */
-
-export interface Fruit {
-    id: number;
-    name: string;
-}
-
-interface FruitContextType {
-    fruits: Fruit[];
-    addFruit: (name: string) => void;
-    deleteFruit: (id: number) => void;
-}
+import type { Fruit, FruitContextType } from "../typescript/FruitContextType";
 
 /* =============== CONTEXT =============== */
 

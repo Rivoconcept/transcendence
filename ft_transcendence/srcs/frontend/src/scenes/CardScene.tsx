@@ -30,14 +30,14 @@
 // }
 
 // src/scenes/CardScene.tsx
-
 import { Canvas } from "@react-three/fiber";
-import Card3D from "../components/cards/Card3D";
 import { useState } from "react";
 import { CARDS } from "../utils/cards";
+import ShuffleCard from "../components/cards/ShuffleCard";
+import RevealCard from "../components/cards/RevealCard";
 
 export default function CardScene() {
-  const [finalCardId, setFinalCardId] = useState<string | undefined>(undefined);
+  const [finalCardId, setFinalCardId] = useState<string | null>(null);
 
   const randomCard = () => {
     const randomIndex = Math.floor(Math.random() * CARDS.length);
@@ -61,9 +61,15 @@ export default function CardScene() {
         <Canvas camera={{ position: [0, 1.5, 5] }}>
           <ambientLight intensity={0.8} />
           <directionalLight position={[5, 5, 5]} />
-          <Card3D targetCardId={finalCardId} />
+
+          {/* PHASE I */}
+          {!finalCardId && <ShuffleCard />}
+
+          {/* PHASE II */}
+          {finalCardId && <RevealCard cardId={finalCardId} />}
         </Canvas>
       </div>
     </>
   );
 }
+

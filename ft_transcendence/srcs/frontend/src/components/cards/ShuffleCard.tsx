@@ -1,47 +1,48 @@
-// src/components/cards/ShuffleCard.tsx
-import { useState, useEffect } from "react";
 import { useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
+import { useEffect, useState, useRef } from "react";
 import * as THREE from "three";
 import { CARDS } from "../../utils/cards";
-import { useCard } from "../../context/CardContext";
 
 export default function ShuffleCard() {
-  const { shuffling, setShuffling, finalCardId } = useCard();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showBack, setShowBack] = useState(false);
+  const group = useRef<THREE.Group>(null!);
 
-  const frontTextures = CARDS.map(c => useLoader(TextureLoader, c.texture));
-  const backTexture = useLoader(TextureLoader, "/diamonds/back.png");
+  // textures
+  const fronts = CARDS.map(c => useLoader(TextureLoader, c.texture));
+  const back = useLoader(TextureLoader, "/diamonds/back.png");
 
-  // Shuffle logic
+  const [index, setIndex] = useState(0);
+  const [showBack, setShowBack] = useState(true);
+
+  // shuffle timer
   useEffect(() => {
-    if (!shuffling) return; // démarre seulement quand setShuffling(true) est appelé
-
     const timer = setInterval(() => {
-      setShowBack(prevShowBack => {
-        const nextShowBack = !prevShowBack;
-        if (!nextShowBack) setCurrentIndex(prev => (prev + 1) % CARDS.length);
-        return nextShowBack;
+      setShowBack(prev => {
+        if (!prev) setIndex(i => (i + 1) % fronts.length);
+        return !prev;
       });
     }, 80);
 
     return () => clearInterval(timer);
-  }, [shuffling]);
-
-
-  // Stop shuffle when finalCardId is set
-  useEffect(() => {
-    if (finalCardId) setShuffling(false);
-  }, [finalCardId]);
-
-  const currentTexture = showBack ? backTexture : frontTextures[currentIndex];
+  }, [fronts.length]);
 
   return (
-    <mesh>
-      <planeGeometry args={[2.5, 3.5]} />
-      <meshStandardMaterial map={currentTexture} side={THREE.DoubleSide} />
-    </mesh>
+    <group ref={group}>
+      {/* Fond noir derrière la carte */}
+      <mesh position={[0, 0, -0.01]}>
+        <planeGeometry args={[2.5, 3.5]} />
+        <meshBasicMaterial color={0x000000} />
+      </mesh>
+
+      {/* Carte qui flippe */}
+      <mesh>
+        <planeGeometry args={[2.5, 3.5]} />
+        <meshStandardMaterial
+          map={showBack ? back : fronts[index]}
+          side={THREE.DoubleSide}
+          transparent={true} // utile si les textures ont des zones transparentes
+        />
+      </mesh>
+    </group>
   );
 }
-
