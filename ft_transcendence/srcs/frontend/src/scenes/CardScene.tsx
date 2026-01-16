@@ -1,75 +1,26 @@
 // src/scenes/CardScene.tsx
-// import { Canvas } from "@react-three/fiber";
-// import { useCard } from "../context/CardContext";
-// import ShuffleCard from "../components/cards/ShuffleCard";
-// import FinalCard from "../components/cards/FinalCard";
-
-// export default function CardScene() {
-//   const { setFinalCardId, setShuffling } = useCard();
-
-// const randomCard = () => {
-//   setShuffling(true);            // démarre la première phase
-//   const randomIndex = Math.floor(Math.random() * 13);
-//   setTimeout(() => {
-//     setFinalCardId(String(randomIndex + 1)); // arrête shuffle et révèle la carte
-//   }, 2000); // durée du shuffle
-// };
-
-
-//   return (
-//     <>
-//       <button onClick={randomCard} style={{ marginBottom: 10 }}>🎲 Tirer une carte</button>
-//       <Canvas camera={{ position: [0, 1.5, 5] }}>
-//         <ambientLight intensity={0.8} />
-//         <directionalLight position={[5, 5, 5]} />
-//         <ShuffleCard />
-//         <FinalCard />
-//       </Canvas>
-//     </>
-//   );
-// }
-
-// src/scenes/CardScene.tsx
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
-import { CARDS } from "../utils/cards";
 import ShuffleCard from "../components/cards/ShuffleCard";
 import RevealCard from "../components/cards/RevealCard";
 
-export default function CardScene() {
-  const [finalCardId, setFinalCardId] = useState<string | null>(null);
-
-  const randomCard = () => {
-    const randomIndex = Math.floor(Math.random() * CARDS.length);
-    setFinalCardId(CARDS[randomIndex].id);
-  };
-
+export default function CardScene({ cards, }: { cards: string[]; })
+{
   return (
-    <>
-      <button
-        onClick={randomCard}
-        style={{
-          padding: "10px 16px",
-          marginBottom: "10px",
-          fontSize: "16px",
-        }}
-      >
-        🎲 Tirer une carte
-      </button>
+    <div style={{ display: "flex", justifyContent: "center", gap: "20px", height: "50vh", }} >
+      {[0, 1, 2].map(i => ( <div key={i} style={{ width: "15vw", height: "100%" }}>
+          <Canvas camera={{ position: [0, 1.5, 5] }}>
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} />
 
-      <div style={{ width: "50vw", height: "50vh" }}>
-        <Canvas camera={{ position: [0, 1.5, 5] }}>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 5, 5]} />
-
-          {/* PHASE I */}
-          {!finalCardId && <ShuffleCard />}
-
-          {/* PHASE II */}
-          {finalCardId && <RevealCard cardId={finalCardId} />}
-        </Canvas>
-      </div>
-    </>
+            {!cards[i] && <ShuffleCard />}
+            {cards[i] && <RevealCard cardId={cards[i]} />}
+          </Canvas>
+        </div>
+      ))}
+    </div>
   );
 }
+
+
+
 

@@ -1,15 +1,17 @@
 // src/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import './styles/main.scss';
+import { CardContextProvider } from "./context/CardContext";
 import { FruitProvider } from "./context/FruitContext";
-// import { CardProvider } from "./context/CardContext"; // 👈 importer CardProvider
+import CardGame from "./CardGame";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <FruitProvider>
-        <App />
+      <CardContextProvider>
+        <CardGame />
+      </CardContextProvider>
     </FruitProvider>
   </React.StrictMode>
 );

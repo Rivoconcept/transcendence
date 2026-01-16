@@ -1,30 +1,36 @@
-// src/context/CardContext.tsx
-import { createContext, useContext, useState, ReactNode } from "react";
+// /home/rivoinfo/Documents/DEV/transcendence/ft_transcendence/srcs/frontend/src/context/CardContext.tsx
 
-type CardContextType = {
-  finalCardId: string | null;
-  setFinalCardId: (id: string) => void;
-  shuffling: boolean;
-  setShuffling: (b: boolean) => void;
-};
+import { createContext, useContext, useState } from "react";
+import { proofByNine } from "../utils/proofByNine";
+import type { CardContextType } from "../typescript/CardContextType";
 
-const CardContext = createContext<CardContextType | undefined>(undefined);
+const CardContext = createContext<CardContextType | null>(null);
 
-export const CardProvider = ({ children }: { children: ReactNode }) => {
-  const [finalCardId, setFinalCardId] = useState<string | null>(null);
-  const [shuffling, setShuffling] = useState(false);
+export function CardContextProvider({ children }: { children: React.ReactNode }) {
+  const [values, setValues] = useState<number[]>([]);
+
+  const drawAll = () => {
+    const drawn = Array.from({ length: 3 }, () =>
+      Math.floor(Math.random() * 13) + 1
+    );
+    setValues(drawn);
+  };
+
+  const sum = values.reduce((s, v) => s + v, 0);
+  const score = values.length === 3 ? proofByNine(sum) : 0;
 
   return (
-    <CardContext.Provider
-      value={{ finalCardId, setFinalCardId, shuffling, setShuffling }}
-    >
+    <CardContext.Provider value={{ values, score, drawAll }}>
       {children}
     </CardContext.Provider>
   );
-};
+}
 
-export const useCard = () => {
-  const context = useContext(CardContext);
-  if (!context) throw new Error("useCard must be used within CardProvider");
-  return context;
-};
+/* ---------------- SUCTOM HOOK ---------------- */
+
+export function useCardGame() {
+  const ctx = useContext(CardContext);
+  if (!ctx) throw new Error("useCardGame must be used within CardContextProvider");
+  return ctx;
+}
+
