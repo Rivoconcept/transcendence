@@ -8,61 +8,35 @@ import OtherFruit from "./OtherFruit";
 import { proofByNine } from "./utils/proofByNine";
 
 function CardGame() {
-  const [cardIds, setCardIds] = useState<string[]>([]);
-  const wsRef = useRef<WebSocket | null>(null);
+  const [cards, setCards] = useState<number[]>([]);
 
-  useEffect(() => {
-    const ws = connectWebSocket((msg) => {
-      console.log("⬅️ WS reçu :", msg);
-      if (msg.type === "NEW_CARDS") {
-        setCardIds(msg.cards); // ex: ["1", "11", "5"]
-      }
-    });
-
-    wsRef.current = ws;
-    return () => ws.close();
-  }, []);
-
-  const requestDraw = () => {
-    console.log("➡️ DRAW_CARDS envoyé");
-    wsRef.current?.send(
-      JSON.stringify({ type: "DRAW_CARDS" })
+  const drawCards = () => {
+    const drawn = Array.from({ length: 3 }, () =>
+      Math.floor(Math.random() * 13) + 1
     );
-    setCardIds([]); // reset → shuffle visible
+    setCards(drawn);
   };
 
-  
-  const score = cardIds.length === 3 ? proofByNine( cardIds.reduce((s, id) => s + Number(id), 0) ) : null;
+  const score =
+    cards.length === 3
+      ? proofByNine(cards.reduce((s, v) => s + v, 0))
+      : null;
 
   return (
      <>
-      <CardScene cards={cardIds} />
-      {score !== null && (
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: "22px",
-            marginBottom: "10px",
-            fontWeight: "bold",
-          }}
-        >
-          Score : {score}
-        </div>
-      )}
+        <CardScene cards={cards} />
 
-      {/* 🎯 bouton central */}
-      <div style={{ textAlign: "center", marginTop: 20 }}>
-        <button
-          onClick={requestDraw}
-          style={{
-            padding: "12px 20px",
-            fontSize: 18,
-            cursor: "pointer",
-          }}
-        >
-          🎲 Tirer les cartes
-        </button>
-      </div>
+        {score !== null && (
+          <div style={{ textAlign: "center", fontSize: 22, marginTop: 10 }}>
+            Score : {score}
+          </div>
+        )}
+
+        <div style={{ textAlign: "center", marginTop: 20 }}>
+          <button onClick={drawCards} style={{ padding: "12px 20px", fontSize: 18 }}>
+            Tirer les cartes
+          </button>
+        </div>
 
         <div>
             <Test/>
