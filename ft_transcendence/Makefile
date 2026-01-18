@@ -15,7 +15,7 @@ NAME = ft_stranscendance
 
 COMPOSE = docker compose
 
-MODE ?= dev  # valeur par défaut = dev
+MODE ?= prod  # valeur par défaut = dev
 
 ifeq ($(MODE),prod)
   COMPOSE_FILE := -f ./srcs/docker-compose-prod.yml

@@ -20,5 +20,4 @@ export const CARDS: Card[] = [
   { id: "11", value: 11, texture: "/diamonds/11.png" },
   { id: "12", value: 12, texture: "/diamonds/12.png" },
   { id: "13", value: 13, texture: "/diamonds/13.png" },
-  { id: "14", value: 13, texture: "/diamonds/back.png" },
 ];

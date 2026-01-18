@@ -5,80 +5,103 @@ import * as THREE from "three";
 import { CARDS } from "../../utils/cards";
 
 export default function RevealCard({ cardId }: { cardId: string }) {
-  const mesh = useRef<THREE.Mesh>(null!);
+  const group = useRef<THREE.Group>(null!);
   const { scene } = useThree();
 
+  /* ======================
+     GEOMETRY (anti-miroir)
+  ====================== */
   const geometry = useMemo(() => {
     const g = new THREE.PlaneGeometry(2.5, 3.5);
     const uv = g.attributes.uv.array as Float32Array;
+
     uv[0] = 1; uv[2] = 0;
     uv[4] = 1; uv[6] = 0;
+
     g.attributes.uv.needsUpdate = true;
     return g;
   }, []);
 
+  /* ======================
+     TEXTURES
+  ====================== */
   const fronts = CARDS.map(c =>
     useLoader(TextureLoader, c.texture)
   );
   const back = useLoader(TextureLoader, "/diamonds/back.png");
 
+  /* ======================
+     STATE
+  ====================== */
+  const [index, setIndex] = useState<number | null>(null);
   const [showBack, setShowBack] = useState(true);
-  const [index, setIndex] = useState(0);
   const flipped = useRef(false);
-  
-  const [loaded, setLoaded] = useState(false);
 
-  // Attendre que les textures soient chargées
+  /* ======================
+     BACKGROUND
+  ====================== */
   useEffect(() => {
-    if (fronts.length > 0 && back && !loaded) {
-      setLoaded(true);
-    }
-  }, [fronts, back, loaded]);
+    scene.background = new THREE.Color(0x000000);
+  }, [scene]);
 
-  // Mettre le fond noir une fois chargé
+  /* ======================
+     INIT / RESET ON CARD
+  ====================== */
   useEffect(() => {
-    if (loaded) {
-      scene.background = new THREE.Color(0x000000);
-    }
-  }, [loaded, scene]);
-
-  useEffect(() => {
+    if (!cardId) return;
     const i = CARDS.findIndex(c => c.id === cardId);
-    if (i !== -1) setIndex(i);
-    mesh.current.rotation.y = 0;
+    if (i === -1) return;
+
+    setIndex(i);
+
+    if (!group.current) return;
+    group.current.rotation.y = 0;
     setShowBack(true);
     flipped.current = false;
   }, [cardId]);
 
+
+  /* ======================
+     ANIMATION
+  ====================== */
   useFrame(() => {
-    if (mesh.current.rotation.y >= Math.PI) return;
+    if (!group.current) return;
+    if (index === null) return;
 
-    mesh.current.rotation.y += 0.12;
+    if (group.current.rotation.y >= Math.PI) return;
 
-    if (!flipped.current && mesh.current.rotation.y >= Math.PI / 2) {
+    group.current.rotation.y += 0.12;
+
+    if (!flipped.current && group.current.rotation.y >= Math.PI / 2) {
       setShowBack(false);
       flipped.current = true;
     }
   });
 
+
+
+  if (index === null) return null; // 👈 évite un render invalide
+
+  /* ======================
+     RENDER
+  ====================== */
   return (
-    <group ref={mesh}>
-      {/* Fond noir derrière la carte */}
+    <group ref={group}>
+      {/* Fond noir */}
       <mesh position={[0, 0, -0.01]}>
         <planeGeometry args={[2.5, 3.5]} />
         <meshBasicMaterial color={0x000000} />
       </mesh>
-  
-      {/* La carte qui tourne */}
+
+      {/* Carte */}
       <mesh>
         <primitive object={geometry} />
         <meshStandardMaterial
           map={showBack ? back : fronts[index]}
           side={THREE.DoubleSide}
-          transparent={true} // garde les zones transparentes
+          transparent
         />
       </mesh>
     </group>
   );
-  
 }
