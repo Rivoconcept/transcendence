@@ -1,15 +1,19 @@
+// /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/components/cards/ShuffleCard.tsx
+
 import { useLoader } from "@react-three/fiber";
-import { TextureLoader } from "three";
 import { useEffect, useState, useRef } from "react";
 import * as THREE from "three";
-import { CARDS } from "../../utils/cards";
+import { CARDS } from "../../typescript/CardContextType";
 
 export default function ShuffleCard() {
   const group = useRef<THREE.Group>(null!);
 
   // textures
-  const fronts = CARDS.map(c => useLoader(TextureLoader, c.texture));
-  const back = useLoader(TextureLoader, "/diamonds/back.png");
+const fronts = CARDS.map(c =>
+  useLoader(THREE.TextureLoader, c.texture)
+);
+
+const back = useLoader(THREE.TextureLoader, "/diamonds/back.png");
 
   const [index, setIndex] = useState(0);
   const [showBack, setShowBack] = useState(true);

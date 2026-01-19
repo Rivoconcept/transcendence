@@ -1,36 +1,44 @@
-// /home/rivoinfo/Documents/DEV/transcendence/ft_transcendence/srcs/frontend/src/context/CardContext.tsx
+// /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/context/CardContext.tsx
 
 import { createContext, useContext, useState } from "react";
 import { proofByNine } from "../utils/proofByNine";
+import { CARDS } from "../typescript/CardContextType";
 import type { CardContextType } from "../typescript/CardContextType";
+
 
 const CardContext = createContext<CardContextType | null>(null);
 
 export function CardContextProvider({ children }: { children: React.ReactNode }) {
-  const [values, setValues] = useState<number[]>([]);
+  const [cards, setCards] = useState<CardContextType["cards"]>(null);
 
   const drawAll = () => {
-    const drawn = Array.from({ length: 3 }, () =>
-      Math.floor(Math.random() * 13) + 1
-    );
-    setValues(drawn);
+    const allCardsRandomOrder = [...CARDS].sort(() => Math.random() - 0.5);
+    const drawn = allCardsRandomOrder.slice(0, 3).map(c => ({
+      id: c.id,
+      value: c.value,
+    }));
+    setCards(drawn);
   };
 
-  const sum = values.reduce((s, v) => s + v, 0);
-  const score = values.length === 3 ? proofByNine(sum) : 0;
+  const reset = () => {
+    setCards(null);
+  };
+  
+  const score = cards && cards.length === 3 ? proofByNine(cards.reduce((s, c) => s + c.value, 0)) : null;
 
   return (
-    <CardContext.Provider value={{ values, score, drawAll }}>
+    <CardContext.Provider value={{ cards, score, drawAll, reset }}>
       {children}
     </CardContext.Provider>
   );
 }
 
-/* ---------------- SUCTOM HOOK ---------------- */
+/* ---------- CUSTOM HOOK ---------- */
 
-export function useCardGame() {
+export function useCardState() {
   const ctx = useContext(CardContext);
-  if (!ctx) throw new Error("useCardGame must be used within CardContextProvider");
+  if (!ctx) {
+    throw new Error("useCardState must be used within CardContextProvider");
+  }
   return ctx;
 }
-

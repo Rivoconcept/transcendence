@@ -1,3 +1,5 @@
+// /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/cardScenes/CardBack.tsx
+
 import { useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import * as THREE from "three";

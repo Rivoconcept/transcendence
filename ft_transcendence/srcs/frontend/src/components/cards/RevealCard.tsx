@@ -1,8 +1,9 @@
+// /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/components/cards/RevealCard.tsx
+
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
-import { TextureLoader } from "three";
 import { useRef, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
-import { CARDS } from "../../utils/cards";
+import { CARDS } from "../../typescript/CardContextType";
 
 export default function RevealCard({ cardId }: { cardId: string }) {
   const group = useRef<THREE.Group>(null!);
@@ -26,9 +27,9 @@ export default function RevealCard({ cardId }: { cardId: string }) {
      TEXTURES
   ====================== */
   const fronts = CARDS.map(c =>
-    useLoader(TextureLoader, c.texture)
+    useLoader(THREE.TextureLoader, c.texture)
   );
-  const back = useLoader(TextureLoader, "/diamonds/back.png");
+  const back = useLoader(THREE.TextureLoader, "/diamonds/back.png");
 
   /* ======================
      STATE
