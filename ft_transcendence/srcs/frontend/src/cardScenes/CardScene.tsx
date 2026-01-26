@@ -6,7 +6,7 @@ import ShuffleCard from "../components/cards/ShuffleCard";
 import RevealCard from "../components/cards/RevealCard";
 import BackCard from "./CardBack";
 import PhaseButton from "../components/ui/PhaseButton";
-import { useCardState } from "../context/CardContext";
+import { useCardState } from "../context/cardGame/CardContext";
 
 type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
 
