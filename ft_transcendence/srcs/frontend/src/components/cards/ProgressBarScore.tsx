@@ -1,8 +1,9 @@
+// ✅ bon
 import LinearProgress from "@mui/material/LinearProgress";
-import { useCardState } from "../context/CardContext";
+import { useCardGameState } from "../../context/cardGame/CardGameContext";
 
 export function ProgressBar() {
-  const { progress } = useCardState();
+  const { progress } = useCardGameState();
 
   return (
     <LinearProgress

@@ -7,24 +7,33 @@ import RevealCard from "../components/cards/RevealCard";
 import BackCard from "./CardBack";
 import PhaseButton from "../components/ui/PhaseButton";
 import { useCardState } from "../context/cardGame/CardContext";
+import { useCardGameState } from "../context/cardGame/CardGameContext";
+import { ProgressBar } from "../components/cards/ProgressBarScore";
+import ProgressBarTimer from "../components/cards/ProgressBarTimer";
+
 
 type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
 
 export default function CardScene() {
   const [phase, setPhase] = useState<Phase>("BEGIN");
-  const { cards, score, drawAll, reset } = useCardState();
+  const { cards, score, reset } = useCardState();
+  const { playTurn, timeLeft, isWin, isLose, turn } = useCardGameState();
+
 
   const onButtonClick = () => {
     if (phase === "BEGIN") {
       setPhase("SHUFFLE");
+
     } else if (phase === "SHUFFLE") {
-      drawAll();      // 👈 tirage via context
+      playTurn();      // 👈 IMPORTANT
       setPhase("PLAY");
+
     } else if (phase === "PLAY") {
-      reset();
+      reset();         // reset cartes
       setPhase("BEGIN");
     }
   };
+
 
   return (
     <>
@@ -38,18 +47,39 @@ export default function CardScene() {
 
               {phase === "BEGIN" && <BackCard />}
               {phase === "SHUFFLE" && <ShuffleCard />}
-              {phase === "PLAY" && cards && cards[i] && ( <RevealCard key={`reveal-${cards[i].id}`} cardId={cards[i].id} /> )}
+              {phase === "PLAY" && cards && cards[i] && (
+                <RevealCard key={`reveal-${cards[i].id}`} cardId={cards[i].id} />
+              )}
             </Canvas>
           </div>
         ))}
       </div>
 
-      {/* SCORE */}
+      {/* SCORE DU TIRAGE */}
       {score !== null && (
         <div style={{ textAlign: "center", fontSize: 22, fontWeight: "bold" }}>
-          Score : {score}
+          Score du tour : {score}
         </div>
       )}
+
+      {/* INFOS PARTIE */}
+      <div style={{ textAlign: "center", marginTop: 10 }}>
+        Tour : {turn} / 5
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+        ⏱ Temps restant :
+        <ProgressBarTimer/>
+      </div>
+
+      {/* BARRE DE PROGRESSION */}
+      <div style={{ width: "60%", margin: "20px auto" }}>
+        <ProgressBar />
+      </div>
+
+      {/* VICTOIRE / DÉFAITE */}
+      {isWin && <h2 style={{ textAlign: "center", color: "lime" }}>🎉 Gagné !</h2>}
+      {isLose && !isWin && <h2 style={{ textAlign: "center", color: "red" }}>💀 Perdu</h2>}
 
       {/* BOUTON */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
@@ -57,4 +87,5 @@ export default function CardScene() {
       </div>
     </>
   );
+
 }
