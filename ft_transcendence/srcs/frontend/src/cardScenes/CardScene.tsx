@@ -8,8 +8,8 @@ import BackCard from "./CardBack";
 import PhaseButton from "../components/ui/PhaseButton";
 import { useCardState } from "../context/cardGame/CardContext";
 import { useCardGameState } from "../context/cardGame/CardGameContext";
-import { ProgressBar } from "../components/cards/ProgressBarScore";
-import ProgressBarTimer from "../components/cards/ProgressBarTimer";
+// import { ProgressBar } from "../components/cards/ProgressBarScore";
+import ProgressCircleTimer from "../components/cards/ProgressCircleTimer";
 
 
 type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
@@ -17,7 +17,7 @@ type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
 export default function CardScene() {
   const [phase, setPhase] = useState<Phase>("BEGIN");
   const { cards, score, reset } = useCardState();
-  const { playTurn, timeLeft, isWin, isLose, turn } = useCardGameState();
+  const { playTurn, isWin, isLose, turn } = useCardGameState();
 
 
   const onButtonClick = () => {
@@ -39,7 +39,7 @@ export default function CardScene() {
     <>
       {/* CARTES */}
       <div style={{ display: "flex", justifyContent: "center", gap: 20, height: "50vh" }}>
-        {[0, 1, 2].map(i => (
+        {[0, 1, 2, 3].map(i => (
           <div key={i} style={{ width: "15vw", height: "100%" }}>
             <Canvas camera={{ position: [0, 1.5, 5] }} style={{ background: "#000" }}>
               <ambientLight intensity={0.8} />
@@ -50,6 +50,8 @@ export default function CardScene() {
               {phase === "PLAY" && cards && cards[i] && (
                 <RevealCard key={`reveal-${cards[i].id}`} cardId={cards[i].id} />
               )}
+              { <ProgressCircleTimer />}
+
             </Canvas>
           </div>
         ))}
@@ -67,14 +69,10 @@ export default function CardScene() {
         Tour : {turn} / 5
       </div>
 
-      <div style={{ textAlign: "center" }}>
-        ⏱ Temps restant :
-        <ProgressBarTimer/>
-      </div>
 
       {/* BARRE DE PROGRESSION */}
       <div style={{ width: "60%", margin: "20px auto" }}>
-        <ProgressBar />
+        {/* <ProgressBar /> */}
       </div>
 
       {/* VICTOIRE / DÉFAITE */}
