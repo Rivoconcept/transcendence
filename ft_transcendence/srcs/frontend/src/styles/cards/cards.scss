@@ -19,11 +19,13 @@
 }
 
 .dashboard {
-  width: 25vw;
-  height: 100%;
+  width: 20vw;
+  height: 50vh;
   border-radius: 20px;
   background: black;
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboardTop {
@@ -96,27 +98,41 @@
   text-align: left;
 }
 
+.scoreHistoryWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: auto;   // 💥 ancre à gauche
+}
+
+
 .scoreHistory {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
   width: 90%;
   margin: 10px auto;
   text-align: left;
 }
 
-.scoreList {
+.scoreLists {
   list-style: none;
-  font-size: 11px;
   padding: 0;
   margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.scoreLists li {
   text-align: left;
 }
 
 .totalScore {
-  width: 90%;
-  margin: 10px auto 0;
+  width: 100%;
   text-align: left;
-  font-weight: bold;
-  color: #ffb703;
 }
+
 
 .separatorLine {
   height: 2px;
@@ -129,4 +145,25 @@
   display: flex;
   justify-content: space-between;
   margin: 0;
+}
+
+.resultStatus {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win {
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.cardButton {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
 }

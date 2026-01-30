@@ -84,31 +84,34 @@ export default function CardScene() {
             </div>
 
             {/* SCORE HISTORY */}
-            <div className="scoreHistory">
-              <ul className="scoreList">
+
+            <div className="dashboardTop">
+            <div className="scoreHistoryWrapper">
+              <ul className="scoreLists">
                 {scores.map((s, i) => (
                   <ScoreList key={i} score={s} round={i + 1} />
                 ))}
               </ul>
-            </div>
-            {/* TOTAL SCORE */}
-            <div className="totalScore">
-              <div className="separatorLine" />
-              <p>Total Score <span>{totalScore}</span></p>
+              <div className="totalScore">
+                <div className="separatorLine" />
+                <p>Total Score <span>{totalScore}</span></p>
+              </div>
             </div>
 
+            <div className="resultStatus">
+              {isWin && <><h1>🎉 </h1> <h2 className="win">Gagné !</h2></>}
+              {isLose && !isWin && <h2 className="lose">💀 Perdu</h2>}
+            </div>
+          </div>
+            {/* TOTAL SCORE */}
             {/* BOUTON */}
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+            <div className="cardButton">
               <PhaseButton phase={phase} onClick={onButtonClick} />
             </div>
 
           </div>
         </div>
       </div>
-
-      {/* VICTOIRE / DÉFAITE */}
-      {isWin && <h2 style={{ textAlign: "center", color: "lime" }}>🎉 Gagné !</h2>}
-      {isLose && !isWin && <h2 style={{ textAlign: "center", color: "red" }}>💀 Perdu</h2>}
 
     </>
   );

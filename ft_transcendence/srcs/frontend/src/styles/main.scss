@@ -1,7 +1,8 @@
 /* Variables Bootstrap (before bootstrap) */
-@use "./button";
-@use "./ProgressBarTimer";
-@use "./cards";
+@use "./cards/button";
+@use "./cards/ProgressBarTimer";
+@use "./cards/ProgressBar";
+@use "./cards/cards";
 @import "./variables";
 @import "bootstrap/scss/bootstrap";
 

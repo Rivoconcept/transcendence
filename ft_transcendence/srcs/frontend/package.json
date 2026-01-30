@@ -10,22 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/material": "^7.3.7",
     "@react-three/fiber": "^9.5.0",
     "bootstrap": "^5.3.8",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "socket.io-client": "^4.8.1",
-    "three": "^0.182.0",
     "lodash": "4.17.20",
     "mdbreact": "4.27.0",
     "mdbreactjs": "4.0.1",
     "progressbar.js": "1.1.0",
+    "react": "^19.2.0",
     "react-countdown-circle-timer": "2.3.7",
+    "react-dom": "^19.2.0",
     "react-progress-timer": "1.0.2",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "socket.io-client": "^4.8.1",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -43,6 +40,5 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
-  },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  }
 }
