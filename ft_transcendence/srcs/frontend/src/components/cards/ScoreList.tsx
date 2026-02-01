@@ -5,8 +5,9 @@ type Props = {
 
 export default function ScoreList({ score, round }: Props) {
   return (
-    <li className="scoreList">
-      Round ({round}) ......... {score}
+    <li className="scoreItem">
+      <span>Round ({round})</span>
+      <span>{score}</span>
     </li>
   );
 }

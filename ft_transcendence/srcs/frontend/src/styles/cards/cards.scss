@@ -1,22 +1,28 @@
 .cardScene {
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  padding: 1rem;
 }
 
 .cardsRow {
   display: flex;
-  gap: 20px;
-  height: 50vh;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .cardSlot {
-  width: 15vw;
-  height: 100%;
+  flex: 1 1 150px; /* min width 150px, grandit si possible */
+  max-width: 200px; /* max width pour desktop */
+  aspect-ratio: 5 / 7; /* ratio carte 2.5 / 3.5 */
 }
 
 .cardCanvas {
-  background: black;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: black;
 }
+
 
 .dashboard {
   width: 20vw;
@@ -68,6 +74,8 @@ hr.separator {
   color: red;
   margin: 0;
   padding: 0;
+  justify-content: space-between;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
 }
 
 .progressTile .label {
@@ -99,21 +107,29 @@ hr.separator {
   width: 100%;
 }
 
-
-.scoreLists li{
+.scoreLists {
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
-  justify-content: space-between;
-  font-size: 12px;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
+  color: #f7f306;
 }
+
+.scoreItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1px 0;
+}
+
 
 .totalScore {
   width: 100%;
   text-align: left;
+  color: #f7b706;
+  font-size: clamp(0.8rem, 1vw, 1rem);
 }
-
 
 .separatorLine {
   height: 2px;
@@ -161,6 +177,8 @@ hr.separator {
 }
 
 .lose {
+  display: block;
   color: red;
   text-align: center;
+  font-size: clamp(0.8rem, 2vw, 2rem);
 }

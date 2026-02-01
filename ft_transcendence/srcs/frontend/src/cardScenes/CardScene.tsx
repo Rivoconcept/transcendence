@@ -86,7 +86,6 @@ export default function CardScene() {
               <div className="progressBarScore">
                 <div className="progressTile">
                   <span className="label">PROGRESS</span>
-                  <span className="line" />
                   <span className="turn">{turn} / 5</span>
                 </div>
                 <ProgressBar />
@@ -99,9 +98,9 @@ export default function CardScene() {
                         <ScoreList key={i} score={s} round={i + 1} />
                       ))}
                     </ul>
+                    <div className="separatorLine" />
                     <div className="totalScore">
-                      <div className="separatorLine" />
-                      <p>Total Score <span>{totalScore}</span></p>
+                      <p>Score <span>{totalScore}</span></p>
                     </div>
                   </div>
                 </div>
@@ -109,7 +108,7 @@ export default function CardScene() {
 
                   <div className="card-body">
                     {isWin && <><h2 className="win">🎉 </h2> <h2 className="win">You Win!</h2></>}
-                    {isLose && !isWin && <><h2 className="lose">💀</h2><h2 className="lose">Perdu</h2></>}
+                    {isLose && !isWin && <> <span className="lose">💀</span> <span className="lose">Perdu</span></>}
                   </div>
                 </div>
               </div>
