@@ -25,8 +25,6 @@ endif
 
 ENV_FILE = --env-file ./srcs/.env
 
-DOMAIN = localhost
-
 export DOCKER_BUILDKIT=0
 export COMPOSE_DOCKER_CLI_BUILD=0
 export USER = $(shell whoami)
@@ -35,7 +33,7 @@ CERTS_DIR = ./secrets/certs
 CRT_FILE = $(CERTS_DIR)/nginx.crt
 KEY_FILE = $(CERTS_DIR)/nginx.key
 
-all: init-dirs init-volumes certs up addHost
+all: init-dirs init-volumes certs up
 
 up:
 	$(COMPOSE) $(ENV_FILE) $(COMPOSE_FILE) up -d
@@ -60,18 +58,6 @@ ps:
 
 exec:
 	$(COMPOSE) $(COMPOSE_FILE) exec
-
-addHost:
-	@if [ "$$(id -u)" -ne 0 ]; then \
-		echo "Skipping /etc/hosts (no sudo privileges)"; \
-	else \
-		grep -qxF "127.0.0.1 $(DOMAIN)" /etc/hosts || \
-		echo "127.0.0.1 $(DOMAIN)" >> /etc/hosts; \
-	fi
-
-rmHost:
-	@echo "Remove host $(DOMAIN)"
-	@sudo sed -i '\|127.0.0.1[[:space:]]\+$(DOMAIN)|d' /etc/hosts
 
 init-dirs:
 	@if [ ! -d "$(DATA_PATH)/db_data" ]; then \

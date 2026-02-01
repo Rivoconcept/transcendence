@@ -14,12 +14,10 @@
     "bootstrap": "^5.3.8",
     "lodash": "4.17.20",
     "mdbreact": "4.27.0",
-    "mdbreactjs": "4.0.1",
     "progressbar.js": "1.1.0",
     "react": "^19.2.0",
     "react-countdown-circle-timer": "2.3.7",
     "react-dom": "^19.2.0",
-    "react-progress-timer": "1.0.2",
     "react-scripts": "3.0.1",
     "socket.io-client": "^4.8.1",
     "three": "^0.182.0"
