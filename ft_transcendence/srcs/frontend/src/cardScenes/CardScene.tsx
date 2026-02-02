@@ -108,7 +108,7 @@ export default function CardScene() {
 
                   <div className="card-body">
                     {isWin && <><h2 className="win">🎉 </h2> <h2 className="win">You Win!</h2></>}
-                    {isLose && !isWin && <> <span className="lose">💀</span> <span className="lose">Perdu</span></>}
+                    {isLose && !isWin && <> <span className="lose">💀</span> <span className="lose">You lose!</span></>}
                   </div>
                 </div>
               </div>
