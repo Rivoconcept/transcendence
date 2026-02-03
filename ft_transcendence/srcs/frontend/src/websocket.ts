@@ -1,20 +1,30 @@
-// websocket.ts
-let ws: WebSocket;
+import { io, Socket } from "socket.io-client";
 
-export function connectWebSocket(setWsCard: (id: string) => void) {
-  ws = new WebSocket("ws://localhost:3000/ws");
+let socket: Socket;
 
-  ws.onopen = () => console.log("✅ WebSocket connecté");
+export function connectSocket(token: string) {
+  socket = io("http://localhost:3000", {
+    withCredentials: true,
+  });
 
-  ws.onmessage = (e) => {
-    const msg = JSON.parse(e.data);
-    if (msg.type === "DRAW_CARD") {
-      setWsCard(msg.card); // déclenche animation
-    }
-  };
+  socket.on("connect", () => {
+    console.log("✅ Socket.IO connecté");
 
-  ws.onclose = () => console.log("🔌 WebSocket fermé");
-  ws.onerror = () => console.warn("⚠️ WebSocket erreur");
+    // AUTH obligatoire
+    socket.emit("auth", token);
+  });
 
-  return ws;
+  socket.on("auth:success", (data) => {
+    console.log("🔐 Auth OK:", data);
+  });
+
+  socket.on("auth:error", (err) => {
+    console.error("❌ Auth failed", err);
+  });
+
+  return socket;
+}
+
+export function getSocket() {
+  return socket;
 }
