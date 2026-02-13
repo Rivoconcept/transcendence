@@ -5,7 +5,7 @@ import { useState } from "react";
 import ShuffleCard from "../components/cards/ShuffleCard";
 import RevealCard from "../components/cards/RevealCard";
 import BackCard from "./CardBack";
-import { useCardState } from "../context/cardGame/CardContext";
+import { useCardState } from "../cardGamecontext/CardContext";
 import CardGameDashboard from "./CardGameDashboard";
 
 

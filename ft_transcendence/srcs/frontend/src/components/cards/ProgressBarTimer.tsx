@@ -1,7 +1,7 @@
 // /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/components/cards/ProgressBarTimer.tsx
 
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { useCardGameState } from "../../context/cardGame/CardGameContext";
+import { useCardGameState } from "../../cardGamecontext/CardGameContext";
 
 export default function ProgressBarTimer() {
   const { timeLeft, maxTime } = useCardGameState();
