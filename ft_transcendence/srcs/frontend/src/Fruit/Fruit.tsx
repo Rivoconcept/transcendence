@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import FruitForm from "./components/FruitForm";
-import FruitList from "./components/FruitList";
+import FruitForm from "./FruitForm";
+import FruitList from "./FruitList";
 
 export default function Fruit() {
 

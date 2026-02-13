@@ -1,6 +1,6 @@
 import { useState } from "react";
-import FruitList from "./components/otherFruitList"
-import FruitForm from "./components/otherFruitForm";
+import FruitList from "./otherFruitList"
+import FruitForm from "./otherFruitForm";
 
 function OtherFruit() {
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFruit } from "../context/FruitContext";
+import { useFruit } from "./FruitContext";
 
 export default function FruitForm() {
     const { addFruit } = useFruit();

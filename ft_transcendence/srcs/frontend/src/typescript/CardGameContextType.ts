@@ -9,6 +9,9 @@ export type CardGameContextType = {
   maxTime: number;
   playTurn: () => void;
   resetGame: () => void;
+  pauseTimer: () => void;
+  resumeTimer: () => void;
+  addTime: (sec: number) => void;
   isWin: boolean;
   isLose: boolean;
 };

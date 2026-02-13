@@ -1,4 +1,4 @@
-import { useFruit } from "../context/FruitContext";
+import { useFruit } from "./FruitContext";
 
 export default function FruitList() {
     const { fruits, deleteFruit } = useFruit();
