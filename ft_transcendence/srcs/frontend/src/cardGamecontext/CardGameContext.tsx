@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useCardState } from "./CardContext";
 import type { CardGameContextType } from "../typescript/CardGameContextType";
 import { scoreAtom } from "../state/CardGameAtoms";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
+import { gameResultAtom } from "../state/CardGameResultAtoms";
 
 const GameContext = createContext<CardGameContextType | null>(null);
 
@@ -13,11 +14,13 @@ const TIME_LIMIT = 30;
 export function CardGameContextProvider({ children }: { children: React.ReactNode }) {
   const score = useAtomValue(scoreAtom);
   const { drawAll, reset: resetCards } = useCardState();
-
+  
   const [turn, setTurn] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  
+  const setGameResult = useSetAtom(gameResultAtom);
 
   useEffect(() => {
     if (score !== null) {
@@ -59,13 +62,34 @@ export function CardGameContextProvider({ children }: { children: React.ReactNod
     if (isWin || isLose) setIsTimerRunning(false);
   }, [isWin, isLose]);
 
+  /* ================= FINAL RESULT ================= */
+
+  useEffect(() => {
+    if (!isWin && !isLose) return;
+
+    setGameResult(prev => {
+      if (prev) return prev; // sécurité
+
+      return {
+        user_id: "mock-user-id",
+        score: totalScore,
+        is_win: isWin,
+        created_at: new Date().toISOString(),
+      };
+    });
+  }, [isWin, isLose]);
+
+
   const resetGame = () => {
     setTurn(0);
     setTotalScore(0);
     setTimeLeft(TIME_LIMIT);
     setIsTimerRunning(false);
     resetCards();
+    setGameResult(null); // 👈 CRUCIAL
   };
+
+
 
   return (
     <GameContext.Provider
