@@ -11,6 +11,7 @@ import { ChatMember } from "./entities/chat-member.js";
 import { Message } from "./entities/message.js";
 import { Reaction } from "./entities/reaction.js";
 import { UserReaction } from "./entities/user-reaction.js";
+import { CardGameResult } from "./entities/card-game-result.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -34,5 +35,6 @@ export const AppDataSource = new DataSource({
     Message,
     Reaction,
     UserReaction,
+    CardGameResult,
   ],
 } as DataSourceOptions);
