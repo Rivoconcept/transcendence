@@ -9,9 +9,7 @@ import { ProgressBar } from "../components/cards/ProgressBarScore";
 import ScoreList from "../components/cards/ScoreList";
 import { useAtomValue } from "jotai";
 import { scoreAtom } from "../state/CardGameAtoms";
-
-
-type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
+import { Phase } from "../typescript/Phase";
 
 interface CardGameDashboardProps {
   phase: Phase;
@@ -26,16 +24,16 @@ export default function CardGameDashboard({ phase, setPhase }: CardGameDashboard
   const [scores, setScores] = useState<number[]>([]);
 
   const onButtonClick = () => {
-    if (phase === "BEGIN") {
-      setPhase("SHUFFLE");
+    if (phase === Phase.BEGIN) {
+      setPhase(Phase.SHUFFLE);
 
-    } else if (phase === "SHUFFLE") {
+    } else if (phase === Phase.SHUFFLE) {
       playTurn();      // 👈 IMPORTANT
-      setPhase("PLAY");
+      setPhase(Phase.PLAY);
 
-    } else if (phase === "PLAY") {
+    } else if (phase === Phase.PLAY) {
       reset();         // reset cards
-      setPhase("BEGIN");
+      setPhase(Phase.BEGIN);
     }
   };
 

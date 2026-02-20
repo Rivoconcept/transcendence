@@ -2,6 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
+import { Phase } from "../typescript/Phase";
 import ShuffleCard from "../components/cards/ShuffleCard";
 import RevealCard from "../components/cards/RevealCard";
 import BackCard from "./CardBack";
@@ -10,10 +11,8 @@ import CardGameDashboard from "./CardGameDashboard";
 
 
 
-type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
-
 export default function CardScene() {
-  const [phase, setPhase] = useState<Phase>("BEGIN");
+  const [phase, setPhase] = useState<Phase>(Phase.BEGIN);
   const { cards } = useCardState();
 
 
@@ -27,9 +26,9 @@ export default function CardScene() {
               <Canvas camera={{ position: [0, 1.5, 5] }} className="cardCanvas">
                 <ambientLight intensity={0.8} />
                 <directionalLight position={[5, 5, 5]} />
-                {phase === "BEGIN" && <BackCard />}
-                {phase === "SHUFFLE" && <ShuffleCard />}
-                {phase === "PLAY" && cards?.[i] && (
+                {phase === Phase.BEGIN && <BackCard />}
+                {phase === Phase.SHUFFLE && <ShuffleCard />}
+                {phase === Phase.PLAY && cards?.[i] && (
                   <RevealCard key={`reveal-${cards[i].id}`} cardId={cards[i].id} />
                 )}
               </Canvas>
