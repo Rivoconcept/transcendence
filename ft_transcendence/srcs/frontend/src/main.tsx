@@ -1,15 +1,12 @@
 // src/main.tsx
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import './styles/main.scss';
+import { CardContextProvider } from "./cardGamecontext/CardContext";
 // import { FruitProvider } from "./context/FruitContext";
+import { CardGameContextProvider } from "./cardGamecontext/CardGameContext";
 // import Fruit from "./Fruit";
 import CardScene from "./cardScenes/CardScene";
-import { CardContextProvider } from "./cardGamecontext/CardContext";
-import { CardGameContextProvider } from "./cardGamecontext/CardGameContext";
-// import CoursWs from "./CoursWs";
-// import Test from "./Test";
-// import DoubleCompteur from "./DoubleCompteur";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -22,11 +19,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       {/* <Fruit /> */}
       
     {/* </FruitProvider> */}
-    {/* <CoursWs/>
-    <Test />
-    <Suspense fallback={<p>Chargement utilisateur…</p>}>
-      <DoubleCompteur />
-    </Suspense> */}
-
   </React.StrictMode>
 );
