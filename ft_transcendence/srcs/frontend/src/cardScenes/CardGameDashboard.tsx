@@ -8,7 +8,7 @@ import ProgressCircleTimer from "../components/cards/ProgressCircleTimer";
 import { ProgressBar } from "../components/cards/ProgressBarScore";
 import ScoreList from "../components/cards/ScoreList";
 import ScoresTable from "../components/cards/ScoresTable";
-import { useAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { scoreAtom, isWinAtom, userIdAtom } from "../state/CardGameAtoms";
 import { useCardGameSubmit } from "../hooks/useCardGameSubmit";
 
@@ -22,9 +22,9 @@ interface CardGameDashboardProps {
 
 export default function CardGameDashboard({ phase, setPhase }: CardGameDashboardProps) {
   const { reset } = useCardState();
-  const [score, setScore] = useAtom(scoreAtom);
-  const [isWin, setIsWin] = useAtom(isWinAtom);
-  const [userId, setUserId] = useAtom(userIdAtom);
+  const score = useAtomValue(scoreAtom);
+  const userId = useAtomValue(userIdAtom);
+  const setIsWin = useSetAtom(isWinAtom);
   const { submitGameResult } = useCardGameSubmit();
 
   const { playTurn, isWin: isWinFromContext, isLose, turn } = useCardGameState();
